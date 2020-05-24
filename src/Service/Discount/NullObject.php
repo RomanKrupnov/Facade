@@ -7,7 +7,7 @@ namespace Service\Discount;
 class NullObject implements DiscountInterface
 {
     /**
-     * @inheritdoc
+     * @return float
      */
     public function getDiscount(): float
     {
