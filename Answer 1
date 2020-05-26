@@ -1,0 +1,7 @@
+1. Найдите в проекте паттерн Шаблонный метод (Template Method). Напишите, в каком классе и методе он применён.
+Ответ: Template Method применён в классах
+- Main Controller в методе indexAction()
+- Order Controller в методе infoAction() checkoutAction()
+- Product Controller в методе infoAction()  listAction()
+- User Controller в методе authenticationAction()
+
