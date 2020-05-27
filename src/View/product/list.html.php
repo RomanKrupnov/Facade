@@ -1,13 +1,14 @@
 <?php
 
 use Model\Entity\Product;
+use Service\Product\PriceSorter;
+use Comparator\PriceComparator;
 
 /**
- * @var Closure $renderLayout 
+ * @var Closure $renderLayout
  * @var Product[] $productList
  * @var Closure $path
  */
-
 $body = function () use ($productList, $path) {
 ?>
     <table cellpadding="40" cellspacing="0" border="0">
@@ -18,14 +19,16 @@ $body = function () use ($productList, $path) {
                 <a href="<?= $path('product_list') ?>?sort=name">Названию</a>
             </td>
         </tr>
-
-        <?php for ($i = 0; $i < count($productList);): ?>
+        <?php
+        $priceSorter = new PriceSorter(new PriceComparator());
+        $priceSorterArray = $priceSorter->sort($productList); ?>
+        <?php for ($i = 0; $i < count($priceSorterArray);): ?>
             <tr>
                 <?php for ($col = 0; $col < 3; $col++, $i++): ?>
                     <td style="text-align: center">
-                        <a href="<?= $path('product_info', ['id' => $productList[$i]->getId()]) ?>"><?= $productList[$i]->getName() ?></a>
+                        <a href="<?= $path('product_info', ['id' => $priceSorterArray[$i]->getId()]) ?>"><?= $priceSorterArray[$i]->getName() ?></a>
                         <br /><br />
-                        <?= $productList[$i]->getPrice() ?> руб.
+                        <?= $priceSorterArray[$i]->getPrice() ?> руб.
                     </td>
                 <?php endfor; ?>
             </tr>
@@ -34,6 +37,7 @@ $body = function () use ($productList, $path) {
 <?php
 };
 
+
 $renderLayout(
     'main_template.html.php',
     [
@@ -41,3 +45,4 @@ $renderLayout(
         'body' => $body,
     ]
 );
+
